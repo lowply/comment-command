@@ -1,0 +1,45 @@
+name: 'Comment Command'
+description: 'Comment Command'
+branding:
+  icon: 'command'  
+  color: 'yellow'
+outputs:
+  command:
+    description: "The command"
+    value: ${{ steps.parse.outputs.command }}
+  arguments:
+    description: "The arguments"
+    value: ${{ steps.parse.outputs.arguments }}
+runs:
+  using: "composite"
+  steps: 
+    - id: parse
+      run: |
+        if [ "${{ github.event_name }}" != "issue_comment" ]; then
+          echo "The event name is not 'issue_comment'."
+          cat ${{ github.action_path }}/err_cond.txt
+          exit 1
+        fi
+
+        if [ "${{ github.event.action }}" != "created" ]; then
+          echo "The event action is not 'created'."
+          cat ${{ github.action_path }}/err_cond.txt
+          exit 1
+        fi
+
+        BODY="${{ github.event.comment.body }}"
+
+        if [ ${BODY:0:1} != "/" ]; then
+          echo "The comment body didn't start with '/'."
+          cat ${{ github.action_path }}/err_cond.txt
+          exit 1
+        fi
+
+        CMD=$(echo "${BODY:1}" | cut -d ' ' -f 1)
+        echo "command: ${CMD}"
+        echo "::set-output name=command::${CMD}"
+
+        ARG=$(echo "${BODY:1}" | cut -d ' ' -f 2-)
+        echo "arguments: ${ARG}"
+        echo "::set-output name=arguments::${ARG}"
+      shell: bash

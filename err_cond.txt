@@ -1,0 +1,21 @@
+
+Make sure you have the following format in your workflow file:
+
+on:
+issue_comment:
+  types:
+  - created
+jobs:
+  comment:
+    runs-on: [your-environment]
+    if: (startsWith(github.event.comment.body, '/'))
+    outputs:
+      command: ${{ steps.comment-command.outputs.command }}
+      arguments: ${{ steps.comment-command.outputs.arguments }}
+    steps:
+      - name: Comment Command
+        id: comment-command
+        uses: lowply/comment-command@v1
+
+Visit https://github.com/lowply/comment-command for more info.
+
