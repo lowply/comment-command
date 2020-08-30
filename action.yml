@@ -39,7 +39,7 @@ runs:
         echo "command: ${CMD}"
         echo "::set-output name=command::${CMD}"
 
-        ARG=$(echo "${BODY:1}" | cut -d ' ' -f 2-)
+        ARG=$(echo "${BODY:1}" | cut -d ' ' -f 2-5) # Max 4 arguments
         echo "arguments: ${ARG}"
         echo "::set-output name=arguments::${ARG}"
       shell: bash
