@@ -38,7 +38,7 @@ issue_comment:
 jobs:
   [job_name]:
     runs-on: [your-environment]
-    if: (startsWith(github.event.comment.body, '/') && github.event.issue.pull_request != null)
+    if: (startsWith(github.event.comment.body, '/') && github.event.issue.pull_request)
     steps:
       - name: Comment Command
         id: comment-command
