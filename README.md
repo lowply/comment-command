@@ -1,1 +1,32 @@
 # Comment Command
+
+## Usage
+
+Make sure you have the following format in your workflow file:
+
+```
+on:
+issue_comment:
+  types:
+  - created
+jobs:
+  [job_name]:
+    runs-on: [your-environment]
+    if: (startsWith(github.event.comment.body, '/'))
+    steps:
+      - name: Comment Command
+        id: comment-command
+        uses: lowply/comment-command@v1
+```
+
+In the following step, you can use the `command` and `arguments` outputs:
+
+```
+      - name: Checkout PR head
+        uses: actions/checkout@v2
+        if: contains(steps.comment-command.outputs.command, 'deploy')
+        with:
+          ref: [ref]
+```
+
+Visit https://github.com/lowply/comment-command for more info.
