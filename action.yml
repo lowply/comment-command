@@ -15,6 +15,12 @@ runs:
   steps: 
     - id: parse
       run: |
+        if [ "${{ github.event.issue.pull_request }}" != "" ]; then
+          echo "This comment is not on a pull request comment."
+          cat ${{ github.action_path }}/err_cond.txt
+          exit 1
+        fi
+
         if [ "${{ github.event_name }}" != "issue_comment" ]; then
           echo "The event name is not 'issue_comment'."
           cat ${{ github.action_path }}/err_cond.txt
@@ -39,7 +45,7 @@ runs:
         echo "command: ${CMD}"
         echo "::set-output name=command::${CMD}"
 
-        ARG=$(echo "${BODY:1}" | cut -d ' ' -f 2-5) # Max 4 arguments
+        ARG=$(echo "${BODY:1}" | cut -d ' ' -f 2-3) # Max 2 arguments
         echo "arguments: ${ARG}"
         echo "::set-output name=arguments::${ARG}"
       shell: bash

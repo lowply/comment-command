@@ -8,7 +8,7 @@ issue_comment:
 jobs:
   deploy:
     runs-on: [your-environment]
-    if: (startsWith(github.event.comment.body, '/'))
+    if: (startsWith(github.event.comment.body, '/') && github.event.issue.pull_request != null)
     steps:
       - name: Comment Command
         id: comment-command
