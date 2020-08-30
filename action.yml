@@ -17,19 +17,19 @@ runs:
       run: |
         if [ "${{ github.event.issue.pull_request }}" == "" ]; then
           echo "This comment is not on a pull request comment."
-          cat ${{ github.action_path }}/err_cond.txt
+          cat ${{ github.action_path }}/err.txt
           exit 1
         fi
 
         if [ "${{ github.event_name }}" != "issue_comment" ]; then
           echo "The event name is not 'issue_comment'."
-          cat ${{ github.action_path }}/err_cond.txt
+          cat ${{ github.action_path }}/err.txt
           exit 1
         fi
 
         if [ "${{ github.event.action }}" != "created" ]; then
           echo "The event action is not 'created'."
-          cat ${{ github.action_path }}/err_cond.txt
+          cat ${{ github.action_path }}/err.txt
           exit 1
         fi
 
@@ -37,7 +37,7 @@ runs:
 
         if [ ${BODY:0:1} != "/" ]; then
           echo "The comment body didn't start with '/'."
-          cat ${{ github.action_path }}/err_cond.txt
+          cat ${{ github.action_path }}/err.txt
           exit 1
         fi
 
