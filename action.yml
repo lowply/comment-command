@@ -15,7 +15,7 @@ runs:
   steps: 
     - id: parse
       run: |
-        if [ "${{ github.event.issue.pull_request }}" == "" ]; then
+        if [ -z "${{ github.event.issue.pull_request }}" ]; then
           echo "This comment is not on a pull request comment."
           cat ${{ github.action_path }}/err.txt
           exit 1
